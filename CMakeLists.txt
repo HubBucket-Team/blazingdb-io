@@ -145,6 +145,7 @@ cuda_add_library(blazing-io-lib STATIC
   )
 
 include_directories(blazing-io-lib ${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(blazing-io-lib /home/felipe/cuda-workspace/blazing-io/build/CMakeFiles/thirdparty/arrow-download/arrow-prefix/src/arrow/cpp/src)
 
 
 #include_directories(blazing-io-run ${CMAKE_CURRENT_SOURCE_DIR}/src)
