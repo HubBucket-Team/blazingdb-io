@@ -1,6 +1,4 @@
-# blazingdb-io
-
-# testing-libgdf
+# blazingdb-io 
 
 ## Dependencies
 
