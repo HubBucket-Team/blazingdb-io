@@ -1,7 +1,7 @@
 #=============================================================================
 # Copyright 2018 BlazingDB, Inc.
 #     Copyright 2018 Felipe Aramburu <felipe@blazingdb.com>
-#
+#     Copyright 2018 Alexander Ocsa <alexander@blazingdb.com>
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -25,7 +25,7 @@
 
 PROJECT(blazing-io)
 
-cmake_minimum_required(VERSION 3.3)  # not sure about version required
+cmake_minimum_required(VERSION 3.11)  # not sure about version required
 
 set(CMAKE_CXX_STANDARD 11)
 message(STATUS "Using C++ standard: c++${CMAKE_CXX_STANDARD}")
@@ -39,27 +39,11 @@ include(FeatureSummary)
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CTest)
-include(ConfigureAWSSDK)
-include(ConfigureLibGDF)
+include(ConfigureAWSSDK) 
 
 # Include custom modules (see cmake directory)
 include(ConfigureArrow)
 include(ConfigureParquetCpp)
-
-find_package(CUDA)
-set_package_properties(
-    CUDA PROPERTIES TYPE REQUIRED
-    PURPOSE "NVIDIA CUDA® parallel computing platform and programming model."
-    URL "https://developer.nvidia.com/cuda-zone")
-
-if(CUDA_FOUND)
-    message(STATUS "CUDA ${CUDA_VERSION} found in ${CUDA_TOOLKIT_ROOT_DIR}")
-
-    set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-std=c++11;--expt-extended-lambda)
-    message(STATUS "CUDA_NVCC_FLAGS: ${CUDA_NVCC_FLAGS}")
-else()
-    message(FATAL_ERROR "CUDA not found, please check your settings.")
-endif()
 
 # Locate the AWS SDK for C++ package.
 # Requires that you build with:
@@ -86,26 +70,12 @@ endif()
 
 include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
-    "${CUDA_INCLUDE_DIRS}"
     "${ARROW_INCLUDEDIR}"
 )
 
-IF(CUDA_VERSION_MAJOR GREATER 7)
-    set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-gencode;arch=compute_60,code=sm_60)
-ENDIF(CUDA_VERSION_MAJOR GREATER 7)
-
-IF(CUDA_VERSION_MAJOR GREATER 8)
-    set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-gencode;arch=compute_70,code=sm_70)
-ENDIF(CUDA_VERSION_MAJOR GREATER 8)
-
-IF(CMAKE_BUILD_TYPE MATCHES DEBUG)
-    set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-g;-G;-lineinfo)
-ENDIF(CMAKE_BUILD_TYPE MATCHES DEBUG)
-
 #find_package(AWSSDK REQUIRED COMPONENTS aws-cpp-sdk-core aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption aws-cpp-sdk-kms)
 
-cuda_add_library(blazing-io-lib STATIC
-    
+add_library(blazing-io-lib STATIC  
     src/Util/StringUtil.cpp
     src/Util/EncryptionUtil.cpp
     src/Util/FileUtil.cpp
@@ -144,17 +114,17 @@ cuda_add_library(blazing-io-lib STATIC
   )
 
 include_directories(blazing-io-lib ${CMAKE_CURRENT_SOURCE_DIR}/src)
-include_directories(blazing-io-lib /home/felipe/cuda-workspace/blazing-io/build/CMakeFiles/thirdparty/arrow-download/arrow-prefix/src/arrow/cpp/src)
+# include_directories(blazing-io-lib /home/felipe/cuda-workspace/blazing-io/build/CMakeFiles/thirdparty/arrow-download/arrow-prefix/src/arrow/cpp/src)
 
 
 #include_directories(blazing-io-run ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 if (ARROW_NUMERIC_VERSION EQUAL 900)
-  # arrow-0.9 requires boost_regex
-	target_link_libraries(blazing-io-lib Apache::ParquetCpp arrow boost regex ${CUDA_CUDA_LIB} aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption libgdf.a)
+#   arrow-0.9 requires boost_regex
+	target_link_libraries(blazing-io-lib Apache::ParquetCpp arrow boost regex aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
 #	target_link_libraries(blazing-io-run Apache::ParquetCpp arrow boost regex ${CUDA_CUDA_LIB} aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption libgdf.a)
 else()
-	target_link_libraries(blazing-io-lib Apache::ParquetCpp arrow ${CUDA_CUDA_LIB}  aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption libgdf.a)
+	target_link_libraries(blazing-io-lib Apache::ParquetCpp arrow aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
 #	target_link_libraries(blazing-io-run Apache::ParquetCpp arrow ${CUDA_CUDA_LIB}  aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption libgdf.a)
 endif()
 
@@ -164,13 +134,19 @@ add_custom_command(  # link the include directory
     COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/include include
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-
-
-
-
 # The install target
-#install(TARGETS blazing-io-lib LIBRARY DESTINATION lib)
+install(TARGETS blazing-io-lib
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        COMPONENT library
+        )
 
+install(DIRECTORY src/Config DESTINATION include)
+install(DIRECTORY src/ExceptionHandling DESTINATION include)
+install(DIRECTORY src/FileReaders DESTINATION include)
+install(DIRECTORY src/FileSystem DESTINATION include)
+install(DIRECTORY src/Library DESTINATION include)
+install(DIRECTORY src/Util DESTINATION include)
 
 # Print the project summary
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
