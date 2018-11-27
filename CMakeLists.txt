@@ -43,7 +43,7 @@ include(ConfigureAWSSDK)
 
 # Include custom modules (see cmake directory)
 include(ConfigureArrow)
-include(ConfigureParquetCpp)
+# include(ConfigureParquetCpp)
 
 # Locate the AWS SDK for C++ package.
 # Requires that you build with:
@@ -70,7 +70,7 @@ endif()
 
 include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
-    "${ARROW_INCLUDEDIR}"
+    "${ARROW_INCLUDE_DIR}"
 )
 
 #find_package(AWSSDK REQUIRED COMPONENTS aws-cpp-sdk-core aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption aws-cpp-sdk-kms)
@@ -119,14 +119,7 @@ include_directories(blazing-io-lib ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 #include_directories(blazing-io-run ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-if (ARROW_NUMERIC_VERSION EQUAL 900)
-#   arrow-0.9 requires boost_regex
-	target_link_libraries(blazing-io-lib Apache::ParquetCpp arrow boost regex aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
-#	target_link_libraries(blazing-io-run Apache::ParquetCpp arrow boost regex ${CUDA_CUDA_LIB} aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption libgdf.a)
-else()
-	target_link_libraries(blazing-io-lib Apache::ParquetCpp arrow aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
-#	target_link_libraries(blazing-io-run Apache::ParquetCpp arrow ${CUDA_CUDA_LIB}  aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption libgdf.a)
-endif()
+target_link_libraries(blazing-io-lib "${ARROW_STATIC_LIB}" aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
 
 # Command to symlink files into the build directory
 add_custom_command(  # link the include directory
