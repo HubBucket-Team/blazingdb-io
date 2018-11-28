@@ -70,6 +70,6 @@ Note:
 mkdir build
 cd build
 cmake -Daws-sdk-cpp_DIR:PATH=/some-directory/aws-sdk-cpp/build/ \ 
-DCMAKE_INSTALL_PREFIX=/some-directory/blazingdb-io/build/ ..
+-DCMAKE_INSTALL_PREFIX=/some-directory/blazingdb-io/build/ ..
 make install
 ```
