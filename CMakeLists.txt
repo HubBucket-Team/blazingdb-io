@@ -34,6 +34,11 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/" ${CMAKE_MODUL
 message(STATUS "CMAKE_MODULE_PATH:" "${CMAKE_MODULE_PATH}")
 
 
+find_package(Threads)
+find_package(Boost REQUIRED COMPONENTS regex)
+find_package(Boost REQUIRED COMPONENTS filesystem)
+
+
 # Include CMake modules
 include(FeatureSummary)
 include(CheckIncludeFiles)
@@ -75,7 +80,7 @@ include_directories(
 
 #find_package(AWSSDK REQUIRED COMPONENTS aws-cpp-sdk-core aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption aws-cpp-sdk-kms)
 
-add_library(blazing-io-lib STATIC  
+add_library(blazing-io-lib SHARED  
     src/Util/StringUtil.cpp
     src/Util/EncryptionUtil.cpp
     src/Util/FileUtil.cpp
@@ -119,7 +124,7 @@ include_directories(blazing-io-lib ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 #include_directories(blazing-io-run ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-target_link_libraries(blazing-io-lib "${ARROW_STATIC_LIB}" aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
+target_link_libraries(blazing-io-lib "${ARROW_STATIC_LIB}"  Boost::filesystem aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
 
 # Command to symlink files into the build directory
 add_custom_command(  # link the include directory
@@ -129,9 +134,7 @@ add_custom_command(  # link the include directory
 
 # The install target
 install(TARGETS blazing-io-lib
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib
-        COMPONENT library
+        DESTINATION lib
         )
 
 install(DIRECTORY src/Config DESTINATION include)
