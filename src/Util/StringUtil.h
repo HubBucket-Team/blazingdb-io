@@ -68,6 +68,7 @@ public:
 		return match (needle.c_str(), haystack.c_str());
 	}
 	static bool match(char const *needle, char const *haystack);
+	static void findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr);
 };
 
 /**

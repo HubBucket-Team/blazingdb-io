@@ -31,6 +31,24 @@ bool match(const char *pattern, const char *candidate, int p, int c) {
     return match(pattern, candidate, p+1, c+1);
   }
 }
+
+
+void StringUtil::findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr)
+{
+	// Get the first occurrence
+	size_t pos = data.find(toSearch);
+
+	// Repeat till end is reached
+	while( pos != std::string::npos)
+	{
+		// Replace this occurrence of Sub String
+		data.replace(pos, toSearch.size(), replaceStr);
+		// Get the next occurrence from the current position
+		pos =data.find(toSearch, pos + toSearch.size());
+	}
+}
+
+
 /**
  * shortcut to call match(const char *, const char *, 0 , 0)
  */
