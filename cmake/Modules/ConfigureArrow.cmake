@@ -18,8 +18,6 @@
 # BEGIN macros
 
 macro(CONFIGURE_ARROW_EXTERNAL_PROJECT)
-    set(ARROW_ROOT ${CMAKE_BINARY_DIR}/arrow)
-
     #NOTE
     # libcudf.so` is now built with the old ABI `-D_GLIBCXX_USE_CXX11_ABI=0`
     # If you build Arrow from source, you can fix this by using `-DARROW_TENSORFLOW=ON`.
