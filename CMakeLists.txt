@@ -1,7 +1,8 @@
 #=============================================================================
 # Copyright 2018 BlazingDB, Inc.
 #     Copyright 2018 Felipe Aramburu <felipe@blazingdb.com>
-#     Copyright 2018 Alexander Ocsa <alexander@blazingdb.com>
+#     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -15,134 +16,83 @@
 # limitations under the License.
 #=============================================================================
 
-# Usage:
-#    $ mkdir build       # create directory for out-of-source build
-#    $ cd build          # enter the build directory
-#    $ cmake ..          # configure build system
-#    $ make              # make libgdf
-#    $ make pytest       # trigger test
-#    $ make install      # install libgdf
+PROJECT(blazingdb-io)
 
-PROJECT(blazing-io)
+cmake_minimum_required(VERSION 3.11)
 
-cmake_minimum_required(VERSION 3.11)  # not sure about version required
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_CXX_STANDARD 11)
 message(STATUS "Using C++ standard: c++${CMAKE_CXX_STANDARD}")
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/" ${CMAKE_MODULE_PATH})
 message(STATUS "CMAKE_MODULE_PATH:" "${CMAKE_MODULE_PATH}")
-
-
-find_package(Threads)
-find_package(Boost REQUIRED COMPONENTS regex)
-find_package(Boost REQUIRED COMPONENTS filesystem)
-
 
 # Include CMake modules
 include(FeatureSummary)
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CTest)
-include(ConfigureAWSSDK) 
 
 # Include custom modules (see cmake directory)
+include(ConfigureAWSSDK)
+#include(Configure pivotalhdfs)
 include(ConfigureArrow)
-# include(ConfigureParquetCpp)
 
-# Locate the AWS SDK for C++ package.
-# Requires that you build with:
-#   -Daws-sdk-cpp_DIR=/path/to/sdk_build
-# or export/set:
-#   CMAKE_PREFIX_PATH=/path/to/sdk_build
-message(STATUS "aws-sdk-cpp_DIR: " ${aws-sdk-cpp_DIR})
-find_package(aws-sdk-cpp REQUIRED)
-set_package_properties(aws-sdk-cpp PROPERTIES TYPE REQUIRED PURPOSE "AWS SDK for C++ allows to integrate any C++ application with AWS services." URL "https://aws.amazon.com/sdk-for-cpp/")
-configure_aws_sdk()
+set(FILESYSTEM_SRC_FILES
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/FileSystemType.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/Path.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/Uri.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/FileStatus.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/FileFilter.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/FileSystemConnection.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/FileSystemException.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/LocalFileSystem.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/HadoopFileSystem.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/S3FileSystem.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/FileSystemManager.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/FileSystemEntity.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/FileSystemRepository.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/FileSystemCommandParser.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/private/S3ReadableFile.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/private/S3OutputStream.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/private/LocalFileSystem_p.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/private/HadoopFileSystem_p.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/private/S3FileSystem_p.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/private/FileSystemManager_p.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/private/FileSystemFactory.cpp
+    ${CMAKE_SOURCE_DIR}/src/FileSystem/private/FileSystemRepository_p.cpp)
 
-# Locate the Apache Arrow package (Requires that you use ConfigureArrow module)
-message(STATUS "ARROW_ROOT: " ${ARROW_ROOT})
-find_package(Arrow REQUIRED)
-set_package_properties(Arrow PROPERTIES TYPE REQUIRED
-    PURPOSE "Apache Arrow is a cross-language development platform for in-memory data."
-    URL "https://github.com/apache/arrow")
+set(LOGGING_SRC_FILES
+    ${CMAKE_SOURCE_DIR}/src/Library/Logging/BlazingLogger.cpp
+    ${CMAKE_SOURCE_DIR}/src/Library/Logging/CoutOutput.cpp
+    ${CMAKE_SOURCE_DIR}/src/Library/Logging/Logger.cpp
+    ${CMAKE_SOURCE_DIR}/src/Library/Logging/LoggingLevel.cpp
+    ${CMAKE_SOURCE_DIR}/src/Library/Logging/ServiceLogging.cpp
+    ${CMAKE_SOURCE_DIR}/src/Library/Logging/TcpOutput.cpp)
 
-if (ARROW_FOUND)
-    message(STATUS "Apache Arrow found in ${ARROW_ROOT}")
-else()
-    message(FATAL_ERROR "Apache Arrow not found, please check your settings.")
-endif()
+set(EXCEPTION_SRC_FILES
+    ${CMAKE_SOURCE_DIR}/src/ExceptionHandling/BlazingThread.cpp
+    ${CMAKE_SOURCE_DIR}/src/ExceptionHandling/BlazingException.cpp
+    ${CMAKE_SOURCE_DIR}/src/ExceptionHandling/BlazingExceptionHolder.cpp)
 
-include_directories(
-    "${CMAKE_CURRENT_SOURCE_DIR}/include"
-    "${ARROW_INCLUDE_DIR}"
+set(UTIL_SRC_FILES
+    ${CMAKE_SOURCE_DIR}/src/Util/StringUtil.cpp
+    ${CMAKE_SOURCE_DIR}/src/Util/EncryptionUtil.cpp
+    ${CMAKE_SOURCE_DIR}/src/Util/FileUtil.cpp
+    ${CMAKE_SOURCE_DIR}/src/Config/BlazingContext.cpp)
+
+add_library(blazing-io STATIC
+    ${FILESYSTEM_SRC_FILES}
 )
 
-#find_package(AWSSDK REQUIRED COMPONENTS aws-cpp-sdk-core aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption aws-cpp-sdk-kms)
+include_directories(blazing-io ${CMAKE_SOURCE_DIR}/src)
 
-add_library(blazing-io-lib SHARED  
-    src/Util/StringUtil.cpp
-    src/Util/EncryptionUtil.cpp
-    src/Util/FileUtil.cpp
-    src/Config/BlazingContext.cpp
-    src/ExceptionHandling/BlazingThread.cpp
-    src/ExceptionHandling/BlazingException.cpp
-    src/ExceptionHandling/BlazingExceptionHolder.cpp
-    src/Library/Logging/BlazingLogger.cpp
-    src/Library/Logging/CoutOutput.cpp
-    src/Library/Logging/Logger.cpp
-    src/Library/Logging/LoggingLevel.cpp
-    src/Library/Logging/ServiceLogging.cpp
-    src/Library/Logging/TcpOutput.cpp
-    src/FileSystem/FileSystemType.cpp
-    src/FileSystem/Path.cpp
-    src/FileSystem/Uri.cpp
-    src/FileSystem/FileStatus.cpp
-    src/FileSystem/FileFilter.cpp
-    src/FileSystem/FileSystemConnection.cpp
-    src/FileSystem/FileSystemException.cpp
-    src/FileSystem/LocalFileSystem.cpp
-    src/FileSystem/HadoopFileSystem.cpp
-    src/FileSystem/S3FileSystem.cpp
-    src/FileSystem/FileSystemManager.cpp
-    src/FileSystem/FileSystemEntity.cpp
-    src/FileSystem/FileSystemRepository.cpp
-    src/FileSystem/FileSystemCommandParser.cpp
-    src/FileSystem/private/S3ReadableFile.cpp
-    src/FileSystem/private/S3OutputStream.cpp
-    src/FileSystem/private/LocalFileSystem_p.cpp
-    src/FileSystem/private/HadoopFileSystem_p.cpp
-    src/FileSystem/private/S3FileSystem_p.cpp
-    src/FileSystem/private/FileSystemManager_p.cpp
-    src/FileSystem/private/FileSystemFactory.cpp
-    src/FileSystem/private/FileSystemRepository_p.cpp
-  )
+target_link_libraries(blazing-io ${ARROW_STATIC_LIB} aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
 
-include_directories(blazing-io-lib ${CMAKE_CURRENT_SOURCE_DIR}/src)
-# include_directories(blazing-io-lib /home/felipe/cuda-workspace/blazing-io/build/CMakeFiles/thirdparty/arrow-download/arrow-prefix/src/arrow/cpp/src)
-
-
-#include_directories(blazing-io-run ${CMAKE_CURRENT_SOURCE_DIR}/src)
-
-target_link_libraries(blazing-io-lib "${ARROW_STATIC_LIB}"  Boost::filesystem aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
-
-# Command to symlink files into the build directory
-add_custom_command(  # link the include directory
-    OUTPUT include
-    COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/include include
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-# The install target
-install(TARGETS blazing-io-lib
-        DESTINATION lib
-        )
-
-install(DIRECTORY src/Config DESTINATION include)
-install(DIRECTORY src/ExceptionHandling DESTINATION include)
-install(DIRECTORY src/FileReaders DESTINATION include)
-install(DIRECTORY src/FileSystem DESTINATION include)
-install(DIRECTORY src/Library DESTINATION include)
-install(DIRECTORY src/Util DESTINATION include)
+# Install target and headers
+install(TARGETS blazing-io DESTINATION lib)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/ DESTINATION include/blazingdb/io FILES_MATCHING PATTERN "*.h")
 
 # Print the project summary
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
