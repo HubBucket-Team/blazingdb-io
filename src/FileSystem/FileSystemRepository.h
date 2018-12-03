@@ -1,7 +1,6 @@
 /*
- * FileSystemRepository.h
- *
- *  Created on: Feb 03, 2018
+ * Copyright 2017 BlazingDB, Inc.
+ *     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
  */
 
 #ifndef _FILESYSTEM_REPOSITORY_H_

@@ -1,7 +1,8 @@
 /*
- * S3FileSystem_p.cpp
- *
- *  Created on: Nov 21, 2017
+ * Copyright 2017 BlazingDB, Inc.
+ *     Copyright 2018 Felipe Aramburu <felipe@blazingdb.com>
+ *     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
+ *     Copyright 2018 William Malpica <william@blazingdb.com>
  */
 
 #include "S3FileSystem_p.h"

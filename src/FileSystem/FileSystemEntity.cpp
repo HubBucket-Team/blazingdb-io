@@ -1,7 +1,6 @@
 /*
- * FileSystemEntity.cpp
- *
- *  Created on: Feb 04, 2018
+ * Copyright 2017 BlazingDB, Inc.
+ *     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
  */
 
 #include "FileSystemEntity.h"

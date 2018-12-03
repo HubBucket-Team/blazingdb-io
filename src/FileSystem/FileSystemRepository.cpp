@@ -1,3 +1,8 @@
+/*
+ * Copyright 2017 BlazingDB, Inc.
+ *     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
+ */
+
 #include "FileSystemRepository.h"
 
 #include "private/FileSystemRepository_p.h"

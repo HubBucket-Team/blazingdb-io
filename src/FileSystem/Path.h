@@ -1,7 +1,6 @@
 /*
- * Path.h
- *
- *  Created on: Dec 14, 2017
+ * Copyright 2017 BlazingDB, Inc.
+ *     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
  */
 
 #ifndef _BLAZING_FS_PATH_H_

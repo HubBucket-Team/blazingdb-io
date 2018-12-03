@@ -1,7 +1,6 @@
 /*
- * FileSystemManager.h
- *
- *  Created on: Nov 24, 2017
+ * Copyright 2017 BlazingDB, Inc.
+ *     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
  */
 
 #ifndef _FILESYSTEM_MANAGER_H_

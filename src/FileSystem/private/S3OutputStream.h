@@ -1,8 +1,7 @@
 /*
- * BlazingS3.h
- *
- *  Created on: Nov 9, 2017
- *      Author: felipe
+ * Copyright 2017 BlazingDB, Inc.
+ *     Copyright 2018 Felipe Aramburu <felipe@blazingdb.com>
+ *     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
  */
 
 #ifndef SRC_UTIL_BLAZINGS3_S3OUTPUTSTREAM_H_

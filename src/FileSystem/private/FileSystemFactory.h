@@ -1,7 +1,6 @@
 /*
- * FileSystemFactory.h
- *
- *  Created on: Dic 19, 2017
+ * Copyright 2017 BlazingDB, Inc.
+ *     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
  */
 
 #ifndef _FILESYSTEM_METHOD_FACTORY_PRIVATE_H_

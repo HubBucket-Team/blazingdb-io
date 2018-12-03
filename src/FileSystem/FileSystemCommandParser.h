@@ -1,7 +1,6 @@
 /*
- * FileSystemParser.h
- *
- *  Created on: Feb 09, 2018
+ * Copyright 2017 BlazingDB, Inc.
+ *     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
  */
 
 #ifndef _FILESYSTEM_COMMAND_PARSER_FUNCTIONS_H_

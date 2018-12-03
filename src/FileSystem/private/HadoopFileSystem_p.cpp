@@ -1,7 +1,6 @@
 /*
- * HadoopFileSystem_p.cpp
- *
- *  Created on: Nov 21, 2017
+ * Copyright 2017 BlazingDB, Inc.
+ *     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
  */
 
 #include "HadoopFileSystem_p.h"

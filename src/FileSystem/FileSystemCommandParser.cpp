@@ -1,7 +1,6 @@
 /*
- * FileSystemParser.cpp
- *
- *  Created on: Feb 09, 2018
+ * Copyright 2017 BlazingDB, Inc.
+ *     Copyright 2018 Percy Camilo Triveño Aucahuasi <percy@blazingdb.com>
  */
 
 #include "FileSystemCommandParser.h"
