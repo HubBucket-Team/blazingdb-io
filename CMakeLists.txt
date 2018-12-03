@@ -82,7 +82,7 @@ set(UTIL_SRC_FILES
     ${CMAKE_SOURCE_DIR}/src/Util/FileUtil.cpp
     ${CMAKE_SOURCE_DIR}/src/Config/BlazingContext.cpp)
 
-add_library(blazingdb-io STATIC
+add_library(blazingdb-io
     ${FILESYSTEM_SRC_FILES}
     ${UTIL_SRC_FILES}
     ${LOGGING_SRC_FILES}
