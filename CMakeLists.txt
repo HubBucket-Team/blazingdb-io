@@ -20,7 +20,7 @@ PROJECT(blazingdb-io)
 
 cmake_minimum_required(VERSION 3.11)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 message(STATUS "Using C++ standard: c++${CMAKE_CXX_STANDARD}")
@@ -38,6 +38,10 @@ include(CTest)
 include(ConfigureAWSSDK)
 #include(Configure pivotalhdfs)
 include(ConfigureArrow)
+
+find_package(Threads)
+find_package(Boost REQUIRED COMPONENTS regex)
+find_package(Boost REQUIRED COMPONENTS filesystem)
 
 set(FILESYSTEM_SRC_FILES
     ${CMAKE_SOURCE_DIR}/src/FileSystem/FileSystemType.cpp
@@ -82,7 +86,7 @@ set(UTIL_SRC_FILES
     ${CMAKE_SOURCE_DIR}/src/Util/FileUtil.cpp
     ${CMAKE_SOURCE_DIR}/src/Config/BlazingContext.cpp)
 
-add_library(blazingdb-io
+add_library(blazingdb-io SHARED
     ${FILESYSTEM_SRC_FILES}
     ${UTIL_SRC_FILES}
     ${LOGGING_SRC_FILES}
@@ -91,7 +95,7 @@ add_library(blazingdb-io
 
 include_directories(blazingdb-io ${CMAKE_SOURCE_DIR}/src)
 
-target_link_libraries(blazingdb-io ${ARROW_STATIC_LIB} aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
+target_link_libraries(blazingdb-io ${ARROW_STATIC_LIB} Boost::filesystem aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
 
 # Install target and headers
 install(TARGETS blazingdb-io DESTINATION lib)
