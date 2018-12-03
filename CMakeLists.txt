@@ -84,6 +84,7 @@ set(UTIL_SRC_FILES
 
 add_library(blazingdb-io STATIC
     ${FILESYSTEM_SRC_FILES}
+    ${UTIL_SRC_FILES}
 )
 
 include_directories(blazingdb-io ${CMAKE_SOURCE_DIR}/src)
