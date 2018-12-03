@@ -82,16 +82,16 @@ set(UTIL_SRC_FILES
     ${CMAKE_SOURCE_DIR}/src/Util/FileUtil.cpp
     ${CMAKE_SOURCE_DIR}/src/Config/BlazingContext.cpp)
 
-add_library(blazing-io STATIC
+add_library(blazingdb-io STATIC
     ${FILESYSTEM_SRC_FILES}
 )
 
-include_directories(blazing-io ${CMAKE_SOURCE_DIR}/src)
+include_directories(blazingdb-io ${CMAKE_SOURCE_DIR}/src)
 
-target_link_libraries(blazing-io ${ARROW_STATIC_LIB} aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
+target_link_libraries(blazingdb-io ${ARROW_STATIC_LIB} aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
 
 # Install target and headers
-install(TARGETS blazing-io DESTINATION lib)
+install(TARGETS blazingdb-io DESTINATION lib)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/ DESTINATION include/blazingdb/io FILES_MATCHING PATTERN "*.h")
 
 # Print the project summary
