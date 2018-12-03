@@ -95,7 +95,11 @@ add_library(blazingdb-io SHARED
 
 include_directories(blazingdb-io ${CMAKE_SOURCE_DIR}/src)
 
-target_link_libraries(blazingdb-io ${ARROW_STATIC_LIB} Boost::filesystem aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
+target_link_libraries(blazingdb-io "-Wl,--start-group")
+
+target_link_libraries(blazingdb-io ${ARROW_SHARED_LIB} Boost::filesystem aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
+
+target_link_libraries(blazingdb-io "-Wl,--end-group")
 
 # Install target and headers
 install(TARGETS blazingdb-io DESTINATION lib)
