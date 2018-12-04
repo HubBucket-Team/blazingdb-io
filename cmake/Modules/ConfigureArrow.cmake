@@ -22,26 +22,26 @@ macro(CONFIGURE_ARROW_EXTERNAL_PROJECT)
     # libcudf.so` is now built with the old ABI `-D_GLIBCXX_USE_CXX11_ABI=0`
     # If you build Arrow from source, you can fix this by using `-DARROW_TENSORFLOW=ON`.
     # This forces Arrow to use the old ABI.
-    set(ARROW_CMAKE_ARGS " -DARROW_WITH_LZ4=OFF"
-                         " -DARROW_WITH_ZSTD=OFF"
-                         " -DARROW_WITH_BROTLI=OFF"
-                         " -DARROW_WITH_SNAPPY=OFF"
-                         " -DARROW_WITH_ZLIB=OFF"
+    set(ARROW_CMAKE_ARGS " -DARROW_WITH_LZ4=ON"
+                         " -DARROW_WITH_ZSTD=ON"
+                         " -DARROW_WITH_BROTLI=ON"
+                         " -DARROW_WITH_SNAPPY=ON"
+                         " -DARROW_WITH_ZLIB=ON"
                          " -DARROW_BUILD_STATIC=ON"
-                         " -DARROW_BUILD_SHARED=ON"
-                         " -DARROW_BOOST_USE_SHARED=ON"
+                         " -DARROW_BUILD_SHARED=OFF"
+                         " -DARROW_BOOST_USE_SHARED=OFF"
                          " -DARROW_BUILD_TESTS=OFF"
                          " -DARROW_TEST_MEMCHECK=OFF"
                          " -DARROW_BUILD_BENCHMARKS=OFF"
-                         " -DARROW_IPC=OFF" # we don't need ipc for blazingdb-io
-                         " -DARROW_COMPUTE=OFF"
+                         " -DARROW_IPC=ON"
+                         " -DARROW_COMPUTE=ON"
                          " -DARROW_GPU=OFF"
                          " -DARROW_JEMALLOC=OFF"
                          " -DARROW_BOOST_VENDORED=OFF"
                          " -DARROW_PYTHON=OFF"
                          " -DARROW_HDFS=ON" # disable when blazingdb-io don't use arrow for hdfs
                          " -DARROW_TENSORFLOW=ON" # enable old ABI for C/C++
-                         " -DARROW_PARQUET=OFF" # we don't need parquet for blazingdb-io
+                         " -DARROW_PARQUET=ON" # we don't need parquet for blazingdb-io
     )
 
     # Download and unpack arrow at configure time
