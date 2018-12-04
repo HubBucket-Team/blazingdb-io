@@ -69,7 +69,7 @@ Note:
 ```bash
 mkdir build
 cd build
-cmake -Daws-sdk-cpp_DIR:PATH=/some-directory/aws-sdk-cpp/build/ \ 
--DCMAKE_INSTALL_PREFIX=/some-directory/blazingdb-io/build/ ..
-make install
+cmake -DAWS_SDK_CPP_BUILD_DIR:PATH=/some-directory/aws-sdk-cpp/build/ \
+    -DARROW_INSTALL_DIR=/some-directory/arrow-0.11.1/install/ \
+    -DCMAKE_INSTALL_PREFIX=/some-directory/blazingdb-io/install/ .. 
 ```
