@@ -31,6 +31,8 @@ macro(CONFIGURE_AWS_SDK_CPP_EXTERNAL_PROJECT)
                                 " -DENABLE_TESTING=OFF"
                                 " -DENABLE_UNITY_BUILD=ON"
                                 " -DCUSTOM_MEMORY_MANAGEMENT=0"
+                                " -DCMAKE_C_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0"
+                                " -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0"
                                 " -DCPP_STANDARD=${CMAKE_CXX_STANDARD}")
 
     set(AWS_MODULES
