@@ -5,8 +5,8 @@
 
 # BEGIN macros
 
-macro(CONFIGURE_GOOGLE_TEST_EXTERNAL_PROJECT)
-    set(GOOGLE_TEST_CMAKE_ARGS
+macro(CONFIGURE_GOOGLETEST_EXTERNAL_PROJECT)
+    set(GOOGLETEST_CMAKE_ARGS
         " -Dgtest_build_samples=ON"
         " -DCMAKE_C_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0"      # enable old ABI for C/C++
         " -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0")   # enable old ABI for C/C++
@@ -39,12 +39,12 @@ endmacro()
 
 # BEGIN MAIN #
 
-if (GOOGLE_TEST_INSTALL_DIR)
-    message(STATUS "GOOGLE_TEST_INSTALL_DIR defined, it will use vendor version from ${GOOGLE_TEST_INSTALL_DIR}")
-    set(GTEST_ROOT "${GOOGLE_TEST_INSTALL_DIR}")
+if (GOOGLETEST_INSTALL_DIR)
+    message(STATUS "GOOGLETEST_INSTALL_DIR defined, it will use vendor version from ${GOOGLETEST_INSTALL_DIR}")
+    set(GTEST_ROOT "${GOOGLETEST_INSTALL_DIR}")
 else()
-    message(STATUS "GOOGLE_TEST_INSTALL_DIR not defined, it will be built from sources")
-    configure_google_test_external_project()
+    message(STATUS "GOOGLETEST_INSTALL_DIR not defined, it will be built from sources")
+    configure_googletest_external_project()
     set(GTEST_ROOT "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/thirdparty/googletest-install/")
 endif()
 
