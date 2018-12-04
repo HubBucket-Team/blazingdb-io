@@ -46,10 +46,6 @@ include(CTest)
 include(ConfigureArrow)
 include(ConfigureAWSSDK)
 
-find_package(Threads)
-find_package(Boost REQUIRED COMPONENTS regex)
-find_package(Boost REQUIRED COMPONENTS filesystem)
-
 set(FILESYSTEM_SRC_FILES
     ${CMAKE_SOURCE_DIR}/src/FileSystem/FileSystemType.cpp
     ${CMAKE_SOURCE_DIR}/src/FileSystem/Path.cpp
@@ -93,7 +89,7 @@ set(UTIL_SRC_FILES
     ${CMAKE_SOURCE_DIR}/src/Util/FileUtil.cpp
     ${CMAKE_SOURCE_DIR}/src/Config/BlazingContext.cpp)
 
-add_library(blazingdb-io SHARED
+add_library(blazingdb-io STATIC
     ${FILESYSTEM_SRC_FILES}
     ${UTIL_SRC_FILES}
     ${LOGGING_SRC_FILES}
@@ -101,16 +97,22 @@ add_library(blazingdb-io SHARED
 )
 
 include_directories(blazingdb-io ${CMAKE_SOURCE_DIR}/src)
-
-target_link_libraries(blazingdb-io "-Wl,--start-group")
-
-target_link_libraries(blazingdb-io ${ARROW_SHARED_LIB} Boost::filesystem aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
-
-target_link_libraries(blazingdb-io "-Wl,--end-group")
+target_link_libraries(blazingdb-io ${ARROW_STATIC_LIB} aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
 
 # Install target and headers
 install(TARGETS blazingdb-io DESTINATION lib)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/ DESTINATION include/blazingdb/io FILES_MATCHING PATTERN "*.h")
+
+# Tests
+if(BUILD_TESTING)
+    include(ConfigureGoogleTest)
+
+    if(GTEST_FOUND)
+        add_subdirectory(tests)
+    else()
+        message(AUTHOR_WARNING "Google C++ Testing Framework (Google Test) not found: automated tests are disabled.")
+    endif()
+endif()
 
 # Print the project summary
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
