@@ -73,6 +73,7 @@ set(FILESYSTEM_SRC_FILES
 set(LOGGING_SRC_FILES
     ${CMAKE_SOURCE_DIR}/src/Library/Logging/BlazingLogger.cpp
     ${CMAKE_SOURCE_DIR}/src/Library/Logging/CoutOutput.cpp
+    ${CMAKE_SOURCE_DIR}/src/Library/Logging/FileOutput.cpp
     ${CMAKE_SOURCE_DIR}/src/Library/Logging/Logger.cpp
     ${CMAKE_SOURCE_DIR}/src/Library/Logging/LoggingLevel.cpp
     ${CMAKE_SOURCE_DIR}/src/Library/Logging/ServiceLogging.cpp
