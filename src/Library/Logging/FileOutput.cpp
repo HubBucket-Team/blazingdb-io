@@ -5,7 +5,7 @@
 namespace Library {
     namespace Logging {
         FileOutput::FileOutput(const std::string& filename, bool truncate) {
-            auto mode = (truncate ? (std::ios::out | std::ios::app | std::ios::trunc) : (std::ios::out | std::ios::app)); 
+            auto mode = std::ios::out | (truncate ? std::ios::trunc : std::ios::app); 
             file.open(filename, mode);
         }
 
