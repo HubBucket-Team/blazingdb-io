@@ -59,6 +59,7 @@ bool FileSystemManager::Private::registerFileSystem(const FileSystemEntity &file
 		this->fileSystems.push_back(std::move(fileSystem));
 		this->fileSystemIds[authority] = this->fileSystems.size() - 1;
 	} else { // only reuse fs that aren't null and were connected
+		Logging::Logger().logTrace("filesystem previously created. It was found and will be reused");
 		this->fileSystemIds[authority] = foundIndex;
 	}
 
@@ -80,6 +81,7 @@ bool FileSystemManager::Private::deregisterFileSystem(const std::string& authori
 	}
 
 	if (found == false) {
+		Logging::Logger().logTrace("deregisterFileSystem: filesystem authority not found");
 		//TODO percy notify error: not found
 		return false;
 	}
