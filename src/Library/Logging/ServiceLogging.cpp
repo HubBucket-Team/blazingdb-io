@@ -7,7 +7,7 @@ namespace Library {
     namespace Logging {
         ServiceLogging::ServiceLogging() {
     		//allows unit tests to run dumping to some log
-		auto output = new FileOutput("tmp/blazing-logger.log", true);
+		auto output = new FileOutput("/tmp/blazing-logger.log", true);
 		std::cout<<"insanity test"<<std::endl;
     		setLogOutput(output);
         }
