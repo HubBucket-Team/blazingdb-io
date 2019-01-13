@@ -4,6 +4,9 @@
 namespace Library {
     namespace Logging {
         ServiceLogging::ServiceLogging() {
+    		//allows unit tests to run dumping to some log
+		auto output = new FileOutput("tmp/blazing-logger.log", true);
+    		setLogOutput(output);
         }
 
         ServiceLogging::~ServiceLogging() {
