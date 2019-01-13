@@ -1,5 +1,6 @@
 #include "Library/Logging/ServiceLogging.h"
 #include "Library/Logging/GenericOutput.h"
+#include "Library/Logging/FileOutput.h"
 
 namespace Library {
     namespace Logging {
