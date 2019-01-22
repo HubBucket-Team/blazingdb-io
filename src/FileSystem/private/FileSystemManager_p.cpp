@@ -390,6 +390,10 @@ int FileSystemManager::Private::verifyFileSystemUri(const Uri& uri) const {
 
 		if (fileSystemType != uri.getFileSystemType()) {
 			//TODO percy thrown exception
+			std::string authority = uri.getAuthority();
+			std::string uriStr = uri.toString();
+			Logging::Logger().logError("Caught error (-1) verifyFileSystemUri with Uri: " + uriStr + " with name space name " + authority);
+
 			return -1;
 		}
 

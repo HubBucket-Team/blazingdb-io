@@ -1,9 +1,12 @@
 #include "Library/Logging/ServiceLogging.h"
 #include "Library/Logging/GenericOutput.h"
+#include "CoutOutput.h"
 
 namespace Library {
     namespace Logging {
         ServiceLogging::ServiceLogging() {
+            auto value = new Library::Logging::CoutOutput();
+  		    this->output = value;
         }
 
         ServiceLogging::~ServiceLogging() {
