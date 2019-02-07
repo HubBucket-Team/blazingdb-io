@@ -119,14 +119,11 @@ bool FileSystemManager::Private::exists(const Uri& uri) const {
 		const auto ret = this->fileSystems.at(fileSystemId)->exists(uri);
 
 		return ret;
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in exists with Uri: " + uriStr);
-		return false;
+		throw;
 	}
-
-
-
 }
 
 FileStatus FileSystemManager::Private::getFileStatus(const Uri& uri) const {
@@ -142,10 +139,10 @@ FileStatus FileSystemManager::Private::getFileStatus(const Uri& uri) const {
 		const auto ret = this->fileSystems.at(fileSystemId)->getFileStatus(uri);
 
 		return ret;
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in getFileStatus with Uri: " + uriStr);
-		return FileStatus();
+		throw;
 	}
 
 }
@@ -163,10 +160,10 @@ std::vector<FileStatus> FileSystemManager::Private::list(const Uri &uri, const F
 		const auto ret = this->fileSystems.at(fileSystemId)->list(uri, filter);
 
 		return ret;
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in list with Uri: " + uriStr);
-		return std::vector<FileStatus>();
+		throw;
 	}
 }
 
@@ -182,10 +179,10 @@ std::vector<FileStatus> FileSystemManager::Private::list(const Uri &uri, FileTyp
 		const auto ret = this->fileSystems.at(fileSystemId)->list(uri, fileType, wildcard);
 
 		return ret;
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in list with Uri: " + uriStr);
-		return std::vector<FileStatus>();
+		throw;
 	}
 }
 
@@ -201,10 +198,10 @@ std::vector<Uri> FileSystemManager::Private::list(const Uri &uri, const std::str
 		const auto ret = this->fileSystems.at(fileSystemId)->list(uri, wildcard);
 
 		return ret;
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in list with Uri: " + uriStr);
-		return std::vector<Uri>();
+		throw;
 	}
 }
 
@@ -220,10 +217,10 @@ std::vector<std::string> FileSystemManager::Private::listResourceNames(const Uri
 		const auto ret = this->fileSystems.at(fileSystemId)->listResourceNames(uri, fileType, wildcard);
 
 		return ret;
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in listResourceNames with Uri: " + uriStr);
-		return std::vector<std::string>();
+		throw;
 	}
 }
 
@@ -239,10 +236,10 @@ std::vector<std::string> FileSystemManager::Private::listResourceNames(const Uri
 		const auto ret = this->fileSystems.at(fileSystemId)->listResourceNames(uri, wildcard);
 
 		return ret;
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in listResourceNames with Uri: " + uriStr);
-		return std::vector<std::string>();
+		throw;
 	}
 }
 
@@ -258,12 +255,10 @@ bool FileSystemManager::Private::makeDirectory(const Uri& uri) const {
 		const auto ret = this->fileSystems.at(fileSystemId)->makeDirectory(uri);
 
 		return ret;
-	} catch (BlazingFileSystemException e) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
-
 		Logging::Logger().logError("Caught error in makeDirectory with Uri: " + uriStr);
-
-		return false;
+		throw;
 	}
 }
 
@@ -281,10 +276,10 @@ bool FileSystemManager::Private::remove(const Uri& uri) const {
 		return ret;
 	} catch (BlazingFileNotFoundException & e){
 		return true;
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in remove with Uri: " + uriStr);
-		return false;
+		throw;
 	}
 }
 
@@ -313,11 +308,11 @@ bool FileSystemManager::Private::move(const Uri& src, const Uri& dst) const {
 			return ret;
 		}
 
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr1 = src.toString();
 		std::string uriStr2 = dst.toString();
 		Logging::Logger().logError("Caught error in move with Uri: " + uriStr1 + " and Uri " + uriStr2);
-		return false;
+		throw;
 	}
 }
 
@@ -334,10 +329,10 @@ bool FileSystemManager::Private::truncateFile(const Uri &uri, long long length) 
 		const auto ret = this->fileSystems.at(fileSystemId)->truncateFile(uri, length);
 
 		return ret;
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in truncateFile with Uri: " + uriStr);
-		return false;
+		throw;
 	}
 }
 
@@ -353,10 +348,10 @@ std::shared_ptr<arrow::io::RandomAccessFile> FileSystemManager::Private::openRea
 		const auto ret = this->fileSystems.at(fileSystemId)->openReadable(uri);
 
 		return ret;
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in openReadable with Uri: " + uriStr);
-		return nullptr;
+		throw;
 	}
 }
 
@@ -373,10 +368,10 @@ std::shared_ptr<arrow::io::OutputStream> FileSystemManager::Private::openWriteab
 		const auto ret = this->fileSystems.at(fileSystemId)->openWriteable(uri);
 
 		return ret;
-	} catch (...) {
+	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in openWriteable with Uri: " + uriStr);
-		return nullptr;
+		throw;
 	}
 }
 
@@ -398,11 +393,10 @@ int FileSystemManager::Private::verifyFileSystemUri(const Uri& uri) const {
 		}
 
 		return fileSystemId;
-	} catch (...) {
-
+	} catch (const std::exception& e) {
 		std::string authority = uri.getAuthority();
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error verifyFileSystemUri with Uri: " + uriStr + " with name space name " + authority);
-		return -1;
+		throw;
 	}
 }
