@@ -45,6 +45,8 @@ class S3ReadableFile : public arrow::io::RandomAccessFile {
 
 		bool isValid() { return valid; }
 
+		bool closed() const override;
+
 	private:
 		std::shared_ptr<Aws::S3::S3Client> s3Client;
 		std::string bucketName;
