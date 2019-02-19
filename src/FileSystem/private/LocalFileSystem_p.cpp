@@ -143,7 +143,7 @@ FileStatus LocalFileSystem::Private::getFileStatus(const Uri &uri) const {
 			case EBADF:
 				throw BlazingFileSystemException("There was an error getting file status of " + uriWithRoot.toString());
 			case ENOENT:
-				throw BlazingFileNotFoundException("File at " + uriWithRoot.toString() + " does not exist.");
+				throw BlazingFileNotFoundException(uriWithRoot);
 			case EFAULT:
 				throw BlazingInvalidPathException(uriWithRoot);
 			case ELOOP:
