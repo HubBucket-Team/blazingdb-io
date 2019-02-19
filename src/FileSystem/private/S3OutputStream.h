@@ -24,6 +24,8 @@ class S3OutputStream : public arrow::io::OutputStream {
 		arrow::Status Flush() override;
 		arrow::Status Tell(int64_t *position) const override;
 
+		bool closed() const override;
+
 	private:
 		// so we want to store the data that we are writing from there into some
 		// buffer that then gets uploaded  we would like to avoid making allocations

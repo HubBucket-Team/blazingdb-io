@@ -269,3 +269,9 @@ arrow::Status S3ReadableFile::ReadAt(int64_t position, int64_t nbytes, std::shar
 bool S3ReadableFile::supports_zero_copy() const {
 	return false;
 }
+
+bool S3ReadableFile::closed() const {
+	// Since every file interaction is a request, then the file is never really open. This function is necesary due to the Apache Arrow interface starting with v12. 
+	// Depending on who or what uses this function, we may want this to always return false??
+	return true;
+}

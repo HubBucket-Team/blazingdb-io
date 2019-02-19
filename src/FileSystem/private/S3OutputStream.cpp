@@ -200,4 +200,10 @@ arrow::Status S3OutputStream::Tell(int64_t* position) const {
 	return this->impl_->tell(position);
 }
 
+bool S3OutputStream::closed() const {
+	// Since every file interaction is a request, then the file is never really open. This function is necesary due to the Apache Arrow interface starting with v12. 
+	// Depending on who or what uses this function, we may want this to always return false??
+	return true;
+}
+
 //END S3OutputStream
