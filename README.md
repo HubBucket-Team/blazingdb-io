@@ -9,7 +9,7 @@
 - For Debian/Ubuntu based systems:
 
 ```shell-script
-sudo apt-get install libcurl3 libssl1.0.0 zlib1g libuuid1
+sudo apt-get install libcurl3 libssl1.0.0 zlib1gDASADADDA libuuid1
 ```
 
 - For Red Hat/Fedora based systems:
@@ -17,7 +17,7 @@ sudo apt-get install libcurl3 libssl1.0.0 zlib1g libuuid1
 ```shell-script
 sudo dnf install libcurl openssl libuuid
 ```
-
+SDASDA
 You can check more details about the AWS C++ SDK prerequisites here:
 
 http://docs.aws.amazon.com/sdk-for-cpp/v1/developer-guide/setup.html
