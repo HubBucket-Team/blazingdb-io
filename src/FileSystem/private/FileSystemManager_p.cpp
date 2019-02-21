@@ -98,7 +98,7 @@ bool FileSystemManager::Private::deregisterFileSystem(const std::string& authori
 		const int usedFileSystemId = this->fileSystemIds[entry.first];
 
 		if (usedFileSystemId == fileSystemId) {
-			bool deleteFileSystem = false;
+			deleteFileSystem = false;
 			break;
 		}
 	}
@@ -122,7 +122,7 @@ bool FileSystemManager::Private::exists(const Uri& uri) const {
 	} catch (const std::exception& e) {
 		std::string uriStr = uri.toString();
 		Logging::Logger().logError("Caught error in exists with Uri: " + uriStr);
-		throw;
+		return false;
 	}
 }
 
