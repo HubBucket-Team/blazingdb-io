@@ -40,8 +40,8 @@ include(ConfigureBlazingDBDependencies)
 # Configure dependencies
 # TODO percy c.gonzales use native hdfs lib instead of arrow wrapper
 #include(Configure pivotalhdfs)
-include(ConfigureArrow)
-include(ConfigureAWSSDK)
+#include(ConfigureArrow)
+#include(ConfigureAWSSDK)
 
 set(FILESYSTEM_SRC_FILES
     ${CMAKE_SOURCE_DIR}/src/FileSystem/FileSystemType.cpp
@@ -102,15 +102,15 @@ install(TARGETS blazingdb-io DESTINATION lib)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/ DESTINATION include/blazingdb/io FILES_MATCHING PATTERN "*.h")
 
 # Tests
-if(BUILD_TESTING)
-    include(ConfigureGoogleTest)
+#if(BUILD_TESTING)
+#    include(ConfigureGoogleTest)
 
-    if(GTEST_FOUND)
-        add_subdirectory(tests)
-    else()
-        message(AUTHOR_WARNING "Google C++ Testing Framework (Google Test) not found: automated tests are disabled.")
-    endif()
-endif()
+#    if(GTEST_FOUND)
+#        add_subdirectory(tests)
+#    else()
+#        message(AUTHOR_WARNING "Google C++ Testing Framework (Google Test) not found: automated tests are disabled.")
+#    endif()
+#endif()
 
 # Print the project summary
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
