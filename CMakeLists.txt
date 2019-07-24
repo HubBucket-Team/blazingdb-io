@@ -41,7 +41,7 @@ include(ConfigureBlazingDBDependencies)
 # TODO percy c.gonzales use native hdfs lib instead of arrow wrapper
 #include(Configure pivotalhdfs)
 #include(ConfigureArrow)
-#include(ConfigureAWSSDK)
+include(ConfigureAWSSDK)
 
 set(FILESYSTEM_SRC_FILES
     ${CMAKE_SOURCE_DIR}/src/FileSystem/FileSystemType.cpp
