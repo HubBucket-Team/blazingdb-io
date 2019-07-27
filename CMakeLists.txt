@@ -95,7 +95,7 @@ add_library(blazingdb-io STATIC
 )
 
 include_directories(blazingdb-io ${CMAKE_SOURCE_DIR}/src)
-find_library(ARROW_LIB arrow )
+find_library(ARROW_LIB libarrow.a )
 target_link_libraries(blazingdb-io ${ARROW_LIB} aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
 
 # Install target and headers
