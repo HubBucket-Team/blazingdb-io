@@ -40,7 +40,7 @@ include(ConfigureBlazingDBDependencies)
 # Configure dependencies
 # TODO percy c.gonzales use native hdfs lib instead of arrow wrapper
 #include(Configure pivotalhdfs)
-#include(ConfigureArrow)
+include(ConfigureArrow)
 include(ConfigureAWSSDK)
 
 set(FILESYSTEM_SRC_FILES
@@ -94,9 +94,9 @@ add_library(blazingdb-io STATIC
     ${EXCEPTION_SRC_FILES}
 )
 
-include_directories(blazingdb-io ${CMAKE_SOURCE_DIR}/src)
-find_library(ARROW_LIB libarrow.a )
-target_link_libraries(blazingdb-io ${ARROW_LIB} aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
+include_directories(blazingdb-io ${CMAKE_SOURCE_DIR}/src $ARROW_INCLUDE_DIR)
+
+target_link_libraries(blazingdb-io ${ARROW_STATIC_LIB} aws-cpp-sdk-s3 aws-cpp-sdk-s3-encryption)
 
 # Install target and headers
 install(TARGETS blazingdb-io DESTINATION lib)
