@@ -64,6 +64,8 @@ RegionResult getRegion(std::string bucketName, Aws::Auth::AWSCredentials credent
 
 	auto clientConfig = Aws::Client::ClientConfiguration();
 	clientConfig.region = "us-east-1"; // NEVER change this value | use US-Standard region (us-east-1) to get any bucket region
+	clientConfig.connectTimeoutMs = 60000;
+	clientConfig.requestTimeoutMs = 30000;
 
 	const Aws::S3::S3Client s3Client = Aws::S3::S3Client(credentials, clientConfig);
 
@@ -153,6 +155,8 @@ bool S3FileSystem::Private::connect(const FileSystemConnection &fileSystemConnec
 	//here we can make changes to the client configuration
 	auto clientConfig = Aws::Client::ClientConfiguration();
 	clientConfig.region = regionResult.regionName;
+	clientConfig.connectTimeoutMs = 60000;
+	clientConfig.requestTimeoutMs = 30000;
 	//client.requestTimeoutMs = timeout;
 
 	this->s3Client = std::make_shared < Aws::S3::S3Client > (credentials, clientConfig);
