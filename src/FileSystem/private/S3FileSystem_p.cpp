@@ -63,7 +63,10 @@ RegionResult getRegion(std::string bucketName, Aws::Auth::AWSCredentials credent
 	RegionResult regionResult;
 
 	auto clientConfig = Aws::Client::ClientConfiguration();
+	//TODO Percy Rommel use configuration files instead of magic numbers/strings
 	clientConfig.region = "us-east-1"; // NEVER change this value | use US-Standard region (us-east-1) to get any bucket region
+	clientConfig.connectTimeoutMs = 60000;
+	clientConfig.requestTimeoutMs = 30000;
 
 	const Aws::S3::S3Client s3Client = Aws::S3::S3Client(credentials, clientConfig);
 
@@ -153,7 +156,9 @@ bool S3FileSystem::Private::connect(const FileSystemConnection &fileSystemConnec
 	//here we can make changes to the client configuration
 	auto clientConfig = Aws::Client::ClientConfiguration();
 	clientConfig.region = regionResult.regionName;
-	//client.requestTimeoutMs = timeout;
+	//TODO Percy Rommel use configuration files instead of magic numbers
+	clientConfig.connectTimeoutMs = 60000;
+	clientConfig.requestTimeoutMs = 30000;
 
 	this->s3Client = std::make_shared < Aws::S3::S3Client > (credentials, clientConfig);
 
