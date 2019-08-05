@@ -10,6 +10,7 @@
 
 #include "BlazingException.h"
 #include "BlazingExceptionHolder.h"
+#include <functional>
 #include <thread>
 
 class BlazingThread {
