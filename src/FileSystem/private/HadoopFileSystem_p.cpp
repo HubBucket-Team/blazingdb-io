@@ -58,7 +58,7 @@ bool HadoopFileSystem::Private::connect(const FileSystemConnection &fileSystemCo
 	if (connectionStat.ok() == false) {
 		//TODO pery raise error and clean invalid class state
 		this->disconnect(); // try to disconnect and clean every invalid state
-
+		throw std::runtime_error(connectionStat.message());
 		return false;
 	}
 
