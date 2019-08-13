@@ -96,7 +96,7 @@ RegionResult getRegion(std::string bucketName, Aws::Auth::AWSCredentials credent
 			const std::vector<std::string> errorTokens = StringUtil::split(error, "'");
 			regionResult.regionName = errorTokens[errorTokens.size() - 2];
 		} else {
-			regionResult.errorMessage = "Could not determine the region of the bucket " + bucketName + ". Received error: " + error;
+			regionResult.errorMessage = "Could not determine the region of the bucket " + bucketName + " You MUST be the owner for a bucket to not specify its region. Received error: " + error;
 			regionResult.valid = false;
 
 			Logging::Logger().logError(regionResult.errorMessage);
